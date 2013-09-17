@@ -27,6 +27,7 @@
 #include <QMimeData>
 #include <QFontDatabase>
 #include <QInputDialog>
+#include <QColorDialog>
 #include <QTextList>
 #include <QtDebug>
 
@@ -46,6 +47,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     m_fontsize_h4 = 12;
 
     fontChanged(f_textedit->font());
+    bgColorChanged(f_textedit->textColor());
 
     // paragraph formatting
 
@@ -138,6 +140,14 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
             this, SLOT(textSize(QString)));
     f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
                                                                    .pointSize())));
+
+    // text background color
+
+    QPixmap pix(16, 16);
+    pix.fill(QApplication::palette().background().color());
+    f_bgcolor->setIcon(pix);
+
+    connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
 }
 
 void MRichTextEdit::textBold() {
@@ -242,6 +252,23 @@ void MRichTextEdit::textStyle(int index) {
     cursor.endEditBlock();
 }
 
+void MRichTextEdit::textBgColor() {
+    QColor col = QColorDialog::getColor(f_textedit->textBackgroundColor(), this);
+    QTextCursor cursor = f_textedit->textCursor();
+    if (!cursor.hasSelection()) {
+        cursor.select(QTextCursor::WordUnderCursor);
+        }
+    QTextCharFormat fmt = cursor.charFormat();
+    if (col.isValid()) {
+        fmt.setBackground(col);
+      } else {
+        fmt.clearBackground();
+        }
+    cursor.setCharFormat(fmt);
+    f_textedit->setCurrentCharFormat(fmt);
+    bgColorChanged(col);
+}
+
 void MRichTextEdit::listBullet(bool checked) {
     if (checked) {
         f_list_ordered->setChecked(false);
@@ -277,8 +304,9 @@ void MRichTextEdit::list(bool checked, QTextListFormat::Style style) {
 
 void MRichTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format) {
     QTextCursor cursor = f_textedit->textCursor();
-    if (!cursor.hasSelection())
+    if (!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
+        }
     cursor.mergeCharFormat(format);
     f_textedit->mergeCurrentCharFormat(format);
 }
@@ -346,8 +374,19 @@ void MRichTextEdit::fontChanged(const QFont &f) {
       }
 }
 
+void MRichTextEdit::bgColorChanged(const QColor &c) {
+    QPixmap pix(16, 16);
+    if (c.isValid()) {
+        pix.fill(c);
+      } else {
+        pix.fill(QApplication::palette().background().color());
+        }
+    f_bgcolor->setIcon(pix);
+}
+
 void MRichTextEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
     fontChanged(format.font());
+    bgColorChanged((format.background().isOpaque()) ? format.background().color() : QColor());
     f_link->setChecked(format.isAnchor());
 }
 

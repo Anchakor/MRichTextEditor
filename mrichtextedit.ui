@@ -339,7 +339,9 @@
          <string>Decrease indentation</string>
         </property>
         <property name="icon">
-         <iconset theme="format-indent-less"/>
+         <iconset theme="format-indent-less">
+          <normaloff/>
+         </iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -358,7 +360,9 @@
          <string>Increase indentation</string>
         </property>
         <property name="icon">
-         <iconset theme="format-indent-more"/>
+         <iconset theme="format-indent-more">
+          <normaloff/>
+         </iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -372,6 +376,34 @@
        <widget class="Line" name="line_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="f_bgcolor">
+        <property name="minimumSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Text background color</string>
+        </property>
+        <property name="text">
+         <string>.</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -419,6 +451,7 @@
      <zorder>f_indent_dec</zorder>
      <zorder>f_indent_inc</zorder>
      <zorder>f_bold</zorder>
+     <zorder>f_bgcolor</zorder>
     </widget>
    </item>
    <item>
