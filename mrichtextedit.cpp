@@ -30,6 +30,11 @@
 #include <QColorDialog>
 #include <QTextList>
 #include <QtDebug>
+#include <QFileDialog>
+#include <QImageReader>
+#include <QSettings>
+#include <QBuffer>
+#include <QUrl>
 
 MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     setupUi(this);
@@ -95,7 +100,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_textedit, SIGNAL(copyAvailable(bool)), f_copy, SLOT(setEnabled(bool)));
 
 #ifndef QT_NO_CLIPBOARD
-    connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
+    connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(slotClipboardDataChanged()));
 #endif
 
     // link
@@ -113,6 +118,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_bold, SIGNAL(clicked()), this, SLOT(textBold()));
     connect(f_italic, SIGNAL(clicked()), this, SLOT(textItalic()));
     connect(f_underline, SIGNAL(clicked()), this, SLOT(textUnderline()));
+    connect(f_strikeout, SIGNAL(clicked()), this, SLOT(textStrikeout()));
 
     // lists
 
@@ -148,6 +154,9 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     f_bgcolor->setIcon(pix);
 
     connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
+
+    // images
+    connect(f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
 }
 
 void MRichTextEdit::textBold() {
@@ -155,6 +164,12 @@ void MRichTextEdit::textBold() {
     fmt.setFontWeight(f_bold->isChecked() ? QFont::Bold : QFont::Normal);
     mergeFormatOnWordOrSelection(fmt);
 }
+
+
+void MRichTextEdit::focusInEvent(QFocusEvent *) {
+    f_textedit->setFocus(Qt::TabFocusReason);
+}
+
 
 void MRichTextEdit::textUnderline() {
     QTextCharFormat fmt;
@@ -165,6 +180,12 @@ void MRichTextEdit::textUnderline() {
 void MRichTextEdit::textItalic() {
     QTextCharFormat fmt;
     fmt.setFontItalic(f_italic->isChecked());
+    mergeFormatOnWordOrSelection(fmt);
+}
+
+void MRichTextEdit::textStrikeout() {
+    QTextCharFormat fmt;
+    fmt.setFontStrikeOut(f_strikeout->isChecked());
     mergeFormatOnWordOrSelection(fmt);
 }
 
@@ -185,7 +206,7 @@ void MRichTextEdit::textLink(bool checked) {
         bool ok;
         QString newUrl = QInputDialog::getText(this, tr("Create a link"),
                                         tr("Link URL:"), QLineEdit::Normal,
-                                        (url.isEmpty()) ? "http://example.com/" : url,
+                                        url,
                                         &ok);
         if (ok) {
             fmt.setAnchor(true);
@@ -313,8 +334,8 @@ void MRichTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format) 
 
 void MRichTextEdit::slotCursorPositionChanged() {
     QTextList *l = f_textedit->textCursor().currentList();
-    if (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
-                                 && l->format().style() == m_lastBlockList->format().style())) {
+    if (m_lastBlockList && (l == m_lastBlockList || (l != 0 && m_lastBlockList != 0
+                                 && l->format().style() == m_lastBlockList->format().style()))) {
         return;
         }
     m_lastBlockList = l;
@@ -341,6 +362,7 @@ void MRichTextEdit::fontChanged(const QFont &f) {
     f_bold->setChecked(f.bold());
     f_italic->setChecked(f.italic());
     f_underline->setChecked(f.underline());
+    f_strikeout->setChecked(f.strikeOut());
     if (f.pointSize() == m_fontsize_h1) {
         f_paragraph->setCurrentIndex(ParagraphHeading1);
       } else if (f.pointSize() == m_fontsize_h2) {
@@ -426,3 +448,30 @@ void MRichTextEdit::indent(int delta) {
     cursor.setBlockFormat(bfmt);
     cursor.endEditBlock();
 }
+
+void MRichTextEdit::setText(const QString& text) {
+    if (text.isEmpty()) {
+        setPlainText(text);
+        return;
+        }
+    if (text[0] == '<') {
+        setHtml(text);
+      } else {
+        setPlainText(text);
+        }
+}
+
+void MRichTextEdit::insertImage() {
+    QSettings s;
+    QString attdir = s.value("general/filedialog-path").toString();
+    QString file = QFileDialog::getOpenFileName(this, 
+                                    tr("Select an image"),
+                                    attdir,
+                                    tr("JPEG (*.jpg); GIF (*.gif); PNG (*.png); BMP (*.bmp); All (*)"));
+    QImage image = QImageReader(file).read();
+
+    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toAscii().data() );
+
+}
+
+

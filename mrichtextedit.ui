@@ -6,27 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>724</width>
+    <width>761</width>
     <height>312</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>1</number>
    </property>
-   <property name="leftMargin">
-    <number>1</number>
-   </property>
-   <property name="topMargin">
-    <number>1</number>
-   </property>
-   <property name="rightMargin">
-    <number>1</number>
-   </property>
-   <property name="bottomMargin">
+   <property name="margin">
     <number>1</number>
    </property>
    <item>
@@ -35,20 +26,14 @@
       <property name="spacing">
        <number>2</number>
       </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
+      <property name="margin">
        <number>0</number>
       </property>
       <item>
        <widget class="QComboBox" name="f_paragraph">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Paragraph formatting</string>
         </property>
@@ -69,8 +54,11 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Undo</string>
+         <string>Undo (CTRL+Z)</string>
         </property>
         <property name="text">
          <string>Undo</string>
@@ -93,6 +81,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Redo</string>
         </property>
@@ -114,8 +105,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_cut">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Cut</string>
+         <string>Cut (CTRL+X)</string>
         </property>
         <property name="text">
          <string>Cut</string>
@@ -135,8 +129,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_copy">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Copy</string>
+         <string>Copy (CTRL+C)</string>
         </property>
         <property name="text">
          <string>Copy</string>
@@ -156,8 +153,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_paste">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Paste</string>
+         <string>Paste (CTRL+V)</string>
         </property>
         <property name="text">
          <string>Paste</string>
@@ -184,8 +184,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_link">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Link (ctrl+l)</string>
+         <string>Link (CTRL+L)</string>
         </property>
         <property name="text">
          <string>Link</string>
@@ -215,8 +218,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_bold">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Bold (ctrl+b)</string>
+         <string notr="true">Bold (CTRL+B)</string>
         </property>
         <property name="text">
          <string>Bold</string>
@@ -239,8 +245,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_italic">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Italic (ctrl+i)</string>
+         <string>Italic (CTRL+I)</string>
         </property>
         <property name="text">
          <string>Italic</string>
@@ -263,8 +272,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_underline">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Underline (ctrl+u)</string>
+         <string>Underline (CTRL+U)</string>
         </property>
         <property name="text">
          <string>Underline</string>
@@ -286,6 +298,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="f_strikeout">
+        <property name="text">
+         <string>Strike Out</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="Line" name="line_5">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -294,8 +316,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_list_bullet">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Bullet list (ctrl+-)</string>
+         <string>Bullet list (CTRL+-)</string>
         </property>
         <property name="text">
          <string>Bullet list</string>
@@ -313,8 +338,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_list_ordered">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Ordered list (ctrl+=)</string>
+         <string>Ordered list (CTRL+=)</string>
         </property>
         <property name="text">
          <string>Ordered list</string>
@@ -332,8 +360,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_indent_dec">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Decrease indentation (ctrl+,)</string>
+         <string>Decrease indentation (CTRL+,)</string>
         </property>
         <property name="text">
          <string>Decrease indentation</string>
@@ -353,8 +384,11 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_indent_inc">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
-         <string>Increase indentation (ctrl+.)</string>
+         <string>Increase indentation (CTRL+.)</string>
         </property>
         <property name="text">
          <string>Increase indentation</string>
@@ -393,6 +427,9 @@
           <height>16</height>
          </size>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Text background color</string>
         </property>
@@ -409,11 +446,28 @@
       </item>
       <item>
        <widget class="QComboBox" name="f_fontsize">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Font size</string>
         </property>
         <property name="editable">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="f_image">
+        <property name="text">
+         <string notr="true">...</string>
         </property>
        </widget>
       </item>
@@ -452,17 +506,30 @@
      <zorder>f_indent_inc</zorder>
      <zorder>f_bold</zorder>
      <zorder>f_bgcolor</zorder>
+     <zorder>f_strikeout</zorder>
+     <zorder>f_image</zorder>
+     <zorder>line_6</zorder>
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="f_textedit">
+    <widget class="MTextEdit" name="f_textedit">
      <property name="autoFormatting">
       <set>QTextEdit::AutoNone</set>
+     </property>
+     <property name="tabChangesFocus">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>mtextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="deko.qrc"/>
  </resources>
