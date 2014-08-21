@@ -35,6 +35,9 @@
 #include <QSettings>
 #include <QBuffer>
 #include <QUrl>
+#include <QPlainTextEdit>
+#include <QMenu>
+#include <QDialog>
 
 MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     setupUi(this);
@@ -120,6 +123,27 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_underline, SIGNAL(clicked()), this, SLOT(textUnderline()));
     connect(f_strikeout, SIGNAL(clicked()), this, SLOT(textStrikeout()));
 
+    QAction *removeFormat = new QAction(tr("Remove character formatting"), this);
+    removeFormat->setShortcut(QKeySequence("CTRL+M"));
+    connect(removeFormat, SIGNAL(triggered()), this, SLOT(textRemoveFormat()));
+    f_textedit->addAction(removeFormat);
+
+    QAction *removeAllFormat = new QAction(tr("Remove all formatting"), this);
+    connect(removeAllFormat, SIGNAL(triggered()), this, SLOT(textRemoveAllFormat()));
+    f_textedit->addAction(removeAllFormat);
+
+    QAction *textsource = new QAction(tr("Edit document source"), this);
+    textsource->setShortcut(QKeySequence("CTRL+O"));
+    connect(textsource, SIGNAL(triggered()), this, SLOT(textSource()));
+    f_textedit->addAction(textsource);
+
+    QMenu *menu = new QMenu(this);
+    menu->addAction(removeAllFormat);
+    menu->addAction(removeFormat);
+    menu->addAction(textsource);
+    f_menu->setMenu(menu);
+    f_menu->setPopupMode(QToolButton::InstantPopup);
+
     // lists
 
     f_list_bullet->setShortcut(Qt::CTRL + Qt::Key_Minus);
@@ -158,6 +182,61 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     // images
     connect(f_image, SIGNAL(clicked()), this, SLOT(insertImage()));
 }
+
+
+void MRichTextEdit::textSource() {
+    QDialog *dialog = new QDialog(this);
+    QPlainTextEdit *pte = new QPlainTextEdit(dialog);
+    pte->setPlainText( f_textedit->toHtml() );
+    QGridLayout *gl = new QGridLayout(dialog);
+    gl->addWidget(pte,0,0,1,1);
+    dialog->setWindowTitle(tr("Document source"));
+    dialog->setMinimumWidth (400);
+    dialog->setMinimumHeight(600);
+    dialog->exec();
+
+    f_textedit->setHtml(pte->toPlainText());
+
+    delete dialog;
+}
+
+
+void MRichTextEdit::textRemoveFormat() {
+    QTextCharFormat fmt;
+    fmt.setFontWeight(QFont::Normal);
+    fmt.setFontUnderline  (false);
+    fmt.setFontStrikeOut  (false);
+    fmt.setFontItalic     (false);
+    fmt.setFontPointSize  (9);
+//  fmt.setFontFamily     ("Helvetica");
+//  fmt.setFontStyleHint  (QFont::SansSerif);
+//  fmt.setFontFixedPitch (true);
+
+    f_bold      ->setChecked(false);
+    f_underline ->setChecked(false);
+    f_italic    ->setChecked(false);
+    f_strikeout ->setChecked(false);
+    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+
+//  QTextBlockFormat bfmt = cursor.blockFormat();
+//  bfmt->setIndent(0);
+
+    fmt.clearBackground();
+
+    mergeFormatOnWordOrSelection(fmt);
+}
+
+
+void MRichTextEdit::textRemoveAllFormat() {
+    f_bold      ->setChecked(false);
+    f_underline ->setChecked(false);
+    f_italic    ->setChecked(false);
+    f_strikeout ->setChecked(false);
+    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    QString text = f_textedit->toPlainText();
+    f_textedit->setPlainText(text);
+}
+
 
 void MRichTextEdit::textBold() {
     QTextCharFormat fmt;
@@ -330,6 +409,7 @@ void MRichTextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format) 
         }
     cursor.mergeCharFormat(format);
     f_textedit->mergeCurrentCharFormat(format);
+    f_textedit->setFocus(Qt::TabFocusReason);
 }
 
 void MRichTextEdit::slotCursorPositionChanged() {
@@ -467,7 +547,7 @@ void MRichTextEdit::insertImage() {
     QString file = QFileDialog::getOpenFileName(this, 
                                     tr("Select an image"),
                                     attdir,
-                                    tr("JPEG (*.jpg); GIF (*.gif); PNG (*.png); BMP (*.bmp); All (*)"));
+                                    tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 
     f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toAscii().data() );

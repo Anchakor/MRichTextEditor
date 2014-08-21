@@ -47,6 +47,8 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
   protected slots:
     void setPlainText(const QString &text) { f_textedit->setPlainText(text); }
     void setHtml(const QString &text)      { f_textedit->setHtml(text); }
+    void textRemoveFormat();
+    void textRemoveAllFormat();
     void textBold();
     void textUnderline();
     void textStrikeout();
@@ -63,6 +65,7 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     void increaseIndentation();
     void decreaseIndentation();
     void insertImage();
+    void textSource();
 
   protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);

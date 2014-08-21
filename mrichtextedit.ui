@@ -484,6 +484,13 @@
         </property>
        </spacer>
       </item>
+      <item>
+       <widget class="QToolButton" name="f_menu">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
      </layout>
      <zorder>f_paragraph</zorder>
      <zorder>line_4</zorder>
@@ -509,6 +516,7 @@
      <zorder>f_strikeout</zorder>
      <zorder>f_image</zorder>
      <zorder>line_6</zorder>
+     <zorder>f_menu</zorder>
     </widget>
    </item>
    <item>
@@ -530,6 +538,12 @@
    <header>mtextedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>f_textedit</tabstop>
+  <tabstop>f_strikeout</tabstop>
+  <tabstop>f_image</tabstop>
+  <tabstop>f_menu</tabstop>
+ </tabstops>
  <resources>
   <include location="deko.qrc"/>
  </resources>
