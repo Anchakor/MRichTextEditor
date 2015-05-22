@@ -544,13 +544,13 @@ void MRichTextEdit::setText(const QString& text) {
 void MRichTextEdit::insertImage() {
     QSettings s;
     QString attdir = s.value("general/filedialog-path").toString();
-    QString file = QFileDialog::getOpenFileName(this, 
+    QString file = QFileDialog::getOpenFileName(this,
                                     tr("Select an image"),
                                     attdir,
                                     tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 
-    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toAscii().data() );
+    f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
 
 }
 

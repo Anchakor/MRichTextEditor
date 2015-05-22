@@ -52,7 +52,7 @@ void MTextEdit::dropImage(const QImage& image, const QString& format) {
     QByteArray bytes;
     QBuffer buffer(&bytes);
     buffer.open(QIODevice::WriteOnly);
-    image.save(&buffer, format.toAscii().data());
+    image.save(&buffer, format.toLocal8Bit().data());
     buffer.close();
     QByteArray base64 = bytes.toBase64();
     QByteArray base64l;
