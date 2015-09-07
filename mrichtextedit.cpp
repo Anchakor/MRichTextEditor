@@ -171,9 +171,16 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     f_fontsize->setCurrentIndex(f_fontsize->findText(QString::number(QApplication::font()
                                                                    .pointSize())));
 
-    // text background color
+    // text foreground color
 
     QPixmap pix(16, 16);
+    pix.fill(QApplication::palette().foreground().color());
+    f_fgcolor->setIcon(pix);
+
+    connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
+
+    // text background color
+
     pix.fill(QApplication::palette().background().color());
     f_bgcolor->setIcon(pix);
 
@@ -352,6 +359,23 @@ void MRichTextEdit::textStyle(int index) {
     cursor.endEditBlock();
 }
 
+void MRichTextEdit::textFgColor() {
+    QColor col = QColorDialog::getColor(f_textedit->textColor(), this);
+    QTextCursor cursor = f_textedit->textCursor();
+    if (!cursor.hasSelection()) {
+        cursor.select(QTextCursor::WordUnderCursor);
+        }
+    QTextCharFormat fmt = cursor.charFormat();
+    if (col.isValid()) {
+        fmt.setForeground(col);
+      } else {
+        fmt.clearForeground();
+        }
+    cursor.setCharFormat(fmt);
+    f_textedit->setCurrentCharFormat(fmt);
+    fgColorChanged(col);
+}
+
 void MRichTextEdit::textBgColor() {
     QColor col = QColorDialog::getColor(f_textedit->textBackgroundColor(), this);
     QTextCursor cursor = f_textedit->textCursor();
@@ -476,6 +500,16 @@ void MRichTextEdit::fontChanged(const QFont &f) {
       }
 }
 
+void MRichTextEdit::fgColorChanged(const QColor &c) {
+    QPixmap pix(16, 16);
+    if (c.isValid()) {
+        pix.fill(c);
+      } else {
+        pix.fill(QApplication::palette().foreground().color());
+        }
+    f_fgcolor->setIcon(pix);
+}
+
 void MRichTextEdit::bgColorChanged(const QColor &c) {
     QPixmap pix(16, 16);
     if (c.isValid()) {
@@ -489,6 +523,7 @@ void MRichTextEdit::bgColorChanged(const QColor &c) {
 void MRichTextEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format) {
     fontChanged(format.font());
     bgColorChanged((format.background().isOpaque()) ? format.background().color() : QColor());
+    fgColorChanged((format.foreground().isOpaque()) ? format.foreground().color() : QColor());
     f_link->setChecked(format.isAnchor());
 }
 

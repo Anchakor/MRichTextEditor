@@ -56,6 +56,7 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     void textSize(const QString &p);
     void textLink(bool checked);
     void textStyle(int index);
+    void textFgColor();
     void textBgColor();
     void listBullet(bool checked);
     void listOrdered(bool checked);
@@ -70,6 +71,7 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
   protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
     void fontChanged(const QFont &f);
+    void fgColorChanged(const QColor &c);
     void bgColorChanged(const QColor &c);
     void list(bool checked, QTextListFormat::Style style);
     void indent(int delta);
