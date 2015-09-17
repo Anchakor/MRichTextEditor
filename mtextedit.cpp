@@ -5,7 +5,6 @@
 #include <QByteArray>
 #include <QBuffer>
 #include <stdlib.h>
-#include "printiming.h"
 
 
 MTextEdit::MTextEdit(QWidget *parent) : QTextEdit(parent) {
@@ -16,7 +15,7 @@ bool MTextEdit::canInsertFromMimeData(const QMimeData *source) const {
     return source->hasImage() || QTextEdit::canInsertFromMimeData(source);
 }
 
-    
+
 void MTextEdit::insertFromMimeData(const QMimeData *source) {
     if (source->hasImage()) {
         QStringList formats = source->formats();
@@ -37,7 +36,7 @@ void MTextEdit::insertFromMimeData(const QMimeData *source) {
         if (!format.isEmpty()) {
 //          dropImage(qvariant_cast<QImage>(source->imageData()), format);
             dropImage(qvariant_cast<QImage>(source->imageData()), "JPG"); // Sorry, ale cokoli jiného dlouho trvá
-            return; 
+            return;
             }
         }
     QTextEdit::insertFromMimeData(source);
@@ -53,7 +52,7 @@ void MTextEdit::dropImage(const QImage& image, const QString& format) {
     QByteArray bytes;
     QBuffer buffer(&bytes);
     buffer.open(QIODevice::WriteOnly);
-    image.save(&buffer, format.toAscii().data());
+    image.save(&buffer, format.toLocal8Bit().data());
     buffer.close();
     QByteArray base64 = bytes.toBase64();
     QByteArray base64l;
