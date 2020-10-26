@@ -21,8 +21,8 @@
 ** $QT_END_LICENSE$
 */
 
-#ifndef _MRICHTEXTEDIT_H_
-#define _MRICHTEXTEDIT_H_
+#ifndef MRICHTEXTEDIT_H_
+#define MRICHTEXTEDIT_H_
 
 #include <QPointer>
 #include "ui_mrichtextedit.h"
@@ -33,7 +33,7 @@
 class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     Q_OBJECT
   public:
-    MRichTextEdit(QWidget *parent = 0);
+    MRichTextEdit(QWidget *parent = nullptr);
 
     QString toPlainText() const { return f_textedit->toPlainText(); }
     QString toHtml() const;
