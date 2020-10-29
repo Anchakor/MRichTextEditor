@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    QDialog *dialog = new QDialog(0);
+    QDialog *dialog = new QDialog;
     MRichTextEdit *rte = new MRichTextEdit(dialog);
     QGridLayout *gl = new QGridLayout(dialog);
     gl->addWidget(rte,0,0,1,1);
@@ -28,5 +28,5 @@ int main(int argc, char **argv)
     dialog->setMinimumHeight(400);
     dialog->show();
 
-    return app.exec();;
+    return app.exec();
 }

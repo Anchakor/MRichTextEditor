@@ -21,8 +21,8 @@
 ** $QT_END_LICENSE$
 */
 
-#ifndef _MRICHTEXTEDIT_H_
-#define _MRICHTEXTEDIT_H_
+#ifndef MRICHTEXTEDIT_H_
+#define MRICHTEXTEDIT_H_
 
 #include <QPointer>
 #include "ui_mrichtextedit.h"
@@ -33,7 +33,7 @@
 class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     Q_OBJECT
   public:
-    MRichTextEdit(QWidget *parent = 0);
+    MRichTextEdit(QWidget *parent = nullptr);
 
     QString toPlainText() const { return f_textedit->toPlainText(); }
     QString toHtml() const;
@@ -41,8 +41,10 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     QTextCursor    textCursor() const { return f_textedit->textCursor(); }
     void           setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
 
+
   public slots:
     void setText(const QString &text);
+    void clearSource();
 
   protected slots:
     void setPlainText(const QString &text) { f_textedit->setPlainText(text); }
@@ -67,6 +69,7 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     void decreaseIndentation();
     void insertImage();
     void textSource();
+
 
   protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);

@@ -1,5 +1,5 @@
-#ifndef _MTEXTEDIT_H_
-#define _MTEXTEDIT_H_
+#ifndef MTEXTEDIT_H_
+#define MTEXTEDIT_H_
 
 #include <QTextEdit>
 #include <QMimeData>
