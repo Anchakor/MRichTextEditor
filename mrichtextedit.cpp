@@ -59,7 +59,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
 
     // paragraph formatting
 
-    m_paragraphItems    << tr("Standard")
+    m_paragraphItems    << tr("Padrão")
                         << tr("Heading 1")
                         << tr("Heading 2")
                         << tr("Heading 3")
@@ -137,10 +137,15 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(textsource, SIGNAL(triggered()), this, SLOT(textSource()));
     f_textedit->addAction(textsource);
 
+    QAction *clearText = new QAction(tr("Clear all content"), this);
+    connect(clearText, SIGNAL(triggered()), this, SLOT(clearSource()));
+    f_textedit->addAction(clearText);
+
     QMenu *menu = new QMenu(this);
     menu->addAction(removeAllFormat);
     menu->addAction(removeFormat);
     menu->addAction(textsource);
+    menu->addAction(clearText);
     f_menu->setMenu(menu);
     f_menu->setPopupMode(QToolButton::InstantPopup);
 
@@ -205,6 +210,10 @@ void MRichTextEdit::textSource() {
     f_textedit->setHtml(pte->toPlainText());
 
     delete dialog;
+}
+
+void MRichTextEdit::clearSource(){
+    f_textedit->clear();
 }
 
 

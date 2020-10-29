@@ -41,8 +41,10 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     QTextCursor    textCursor() const { return f_textedit->textCursor(); }
     void           setTextCursor(const QTextCursor& cursor) { f_textedit->setTextCursor(cursor); }
 
+
   public slots:
     void setText(const QString &text);
+    void clearSource();
 
   protected slots:
     void setPlainText(const QString &text) { f_textedit->setPlainText(text); }
@@ -67,6 +69,7 @@ class MRichTextEdit : public QWidget, protected Ui::MRichTextEdit {
     void decreaseIndentation();
     void insertImage();
     void textSource();
+
 
   protected:
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
