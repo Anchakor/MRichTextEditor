@@ -59,7 +59,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
 
     // paragraph formatting
 
-    m_paragraphItems    << tr("Padrão")
+    m_paragraphItems    << tr("Standard")
                         << tr("Heading 1")
                         << tr("Heading 2")
                         << tr("Heading 3")
